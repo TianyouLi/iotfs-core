@@ -1,0 +1,172 @@
+#!/usr/bin/env node
+// -*- js -*-
+var thrift = require("thrift");
+var onvif  = require("onvif");
+var Q      = require("q");
+var bunyan = require("bunyan");
+
+var log    = bunyan.createLogger({name : "onvif-adapter-server"});
+
+var service = require("./gen-nodejs/OnvifAdapter");
+var ttypes = require("./gen-nodejs/service_types");
+
+var camlist = {};
+
+
+function makeKey(dev) {
+  return dev.manufacturer + dev.model + dev.serialNumber;
+}
+
+
+function updateCamList(cam, dev) {
+  if (cam === null || dev === null) return;
+  var key = makeKey(dev);
+  var obj = camlist[key];
+  if (obj) {
+    log.info("Already have camera: " + key);
+    obj.rtsp_uri = cam.rtsp_uri;
+  } else {
+    cam.deviceInfo = dev;
+    camlist[key] = cam;
+  }
+}
+
+
+function updateStreamUri(cam) {
+  if (cam === null) return;
+  
+  cam.username = "admin";
+  cam.password = "888888";
+  
+  return Q.ninvoke(cam, "connect")
+    .then(function(err) {
+      if (err)
+        throw err;
+      return Q.ninvoke(cam, "getStreamUri", {});
+    })
+    .then(function(args){
+      var uri = args[0];
+      if (uri) {
+        cam.rtsp_uri = uri.uri;
+      }
+    });
+}
+
+
+function makeParameter(options) {
+  var result = {
+    x: options.x ? (options.x > 0 ? 0.5 : -0.5) : 0,
+    y: options.y ? (options.y > 0 ? 0.5 : -0.5) : 0,
+  }
+
+  return result;
+}
+
+
+function moveCam(cam, options) {
+  var param = makeParameter(options);
+  return Q.ninvoke(cam, "continuousMove", param)
+    .then(function(args) {
+      var err = args[0];
+      var result = args[1];
+      log.info(JSON.stringify(err));
+    });
+}
+
+function stopCam(cam) {
+  return Q.ninvoke(cam, "stop", {})
+    .then(function(args) {
+      var err = args[0];
+      log.info(JSON.stringify(err));
+    });
+}
+
+setInterval(function() {
+  Q.ninvoke(onvif.Discovery, "probe", {"timeout":2000})
+    .then(function(cams){
+      cams.forEach(function(cam) {
+        updateStreamUri(cam)
+          .then(function() {
+             return Q.ninvoke(cam, "getDeviceInformation");              
+          })
+          .then(function(args){
+            var dev = args === null || args === undefined ? null : args[0];
+            updateCamList(cam, dev);            
+          })
+          .done();
+       });
+    })
+    .catch(function(err) {
+      log.info(JSON.stringify(err));
+      // do nothing right now
+    })
+    .done();
+},10000);
+
+var server = thrift.createServer(service, {
+  getProperties  : function(result) {
+    log.info("getProperties invoked");
+    var cam = Object.keys(camlist).length ? camlist[Object.keys(camlist)[0]] : null;
+    if (cam) {
+      var devinfo = cam.deviceInfo;
+      if (cam.pan === null || cam.pan === undefined) {
+        cam.pan = 0;
+      }
+      if (cam.tilt === null || cam.tilt === undefined) {
+        cam.tilt = 0;
+      }
+      var props = [new ttypes.Property({name: "manufacturer", value: String(devinfo.manufacturer)}),
+                   new ttypes.Property({name: "model", value:  String(devinfo.model)}),
+                   new ttypes.Property({name: "serialNumber", value: String(devinfo.serialNumber)}),
+                   new ttypes.Property({name: "rtsp_uri", value: String(cam.rtsp_uri)}),
+                   new ttypes.Property({name: "pan", value: String(cam.pan)}),
+                   new ttypes.Property({name: "tilt", value: String(cam.tilt)})
+                  ];
+      result(null, props);
+      
+    } else {
+      result(null, []);
+    }
+  }, 
+  
+  moveX          : function(params, result) {
+    log.info("moveX invoked with params: " + JSON.stringify(params));
+    Object.keys(camlist).forEach(function(key) {
+      var cam = camlist[key];
+      moveCam(cam, {x:params, y:0})
+        .then(function(){
+          cam.pan = params;
+          result(null);
+        })
+        .done();
+    });
+  },
+
+  moveY          : function(params, result) {
+    log.info("moveY invoked with params: " + JSON.stringify(params));
+    Object.keys(camlist).forEach(function(key) {
+      var cam = camlist[key];
+      moveCam(cam, {x:0, y:params})
+        .then(function(){
+          cam.tilt = params;
+          result(null);
+        })
+        .done();
+    });
+  },
+  
+  stopXY        : function(result) {
+    log.info("stopXY invoked");
+    Object.keys(camlist).forEach(function(key) {
+      var cam = camlist[key];
+      stopCam(cam)
+        .then(function(){
+          result(null);
+        })
+        .done();
+    });
+  }
+}, {});
+
+
+server.listen(6140);
