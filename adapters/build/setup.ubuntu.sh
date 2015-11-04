@@ -10,4 +10,4 @@ cd ${ROOT_DIR}
 APT="sudo apt-get install -y"
 
 # install required tools for
-${APT} cmake gsoap xsltproc realpath
+${APT} cmake gsoap xsltproc realpath automake

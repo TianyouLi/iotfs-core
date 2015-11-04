@@ -14,15 +14,15 @@ ADD_EXECUTABLE ( fan  ${fan_SRC} )
 ADD_EXECUTABLE ( client  ${client_SRC} )
 
 INCLUDE_DIRECTORIES (
-	${CMAKE_SOURCE_DIR}/../../../iotivity/resource/include
-	${CMAKE_SOURCE_DIR}/../../../iotivity/resource/c_common
-	${CMAKE_SOURCE_DIR}/../../../iotivity/resource/csdk/stack/include
-	${CMAKE_SOURCE_DIR}/../../../iotivity/resource/oc_logger/include
+	${CMAKE_SOURCE_DIR}/../../deps/iotivity/iotivity/resource/include
+	${CMAKE_SOURCE_DIR}/../../deps/iotivity/iotivity/resource/c_common
+	${CMAKE_SOURCE_DIR}/../../deps/iotivity/iotivity/resource/csdk/stack/include
+	${CMAKE_SOURCE_DIR}/../../deps/iotivity/iotivity/resource/oc_logger/include
 	)
 
 FIND_LIBRARY (OC oc)
 if (NOT OC)
-  SET ( IOTIVITY_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../iotivity/out/linux/x86_64/release )
+  SET ( IOTIVITY_LIB_PATH ${CMAKE_SOURCE_DIR}/../../deps/iotivity/iotivity/out/linux/x86_64/release )
   SET ( CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${IOTIVITY_LIB_PATH} )
   LINK_DIRECTORIES ( ${IOTIVITY_LIB_PATH} )
   FIND_LIBRARY (OC oc ${IOTIVITY_LIB_PATH} )

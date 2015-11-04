@@ -7,13 +7,6 @@ ROOT_DIR=${BLD_DIR}/../../
 
 cd ${ROOT_DIR}
 
-# clone fusekit
-git clone https://github.com/TianyouLi/fusekit.git
-
-# clone iotivity
-git clone https://github.com/TianyouLi/iotivity.git
-
-
 APT="sudo apt-get install -y"
 
 # install required libraries for fusekit
