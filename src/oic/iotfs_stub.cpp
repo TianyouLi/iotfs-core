@@ -1,4 +1,4 @@
-#include <iotfs/oic/iotfs_oic_stub.h>
+#include <inc/iotfs_oic_stub.h>
 
 namespace iotfs {
 OICStub::OICStub(std::shared_ptr<OC::OCResource> resource)

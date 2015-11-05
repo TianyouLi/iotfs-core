@@ -1,4 +1,4 @@
-#include <iotfs/oic/iotfs_oic_file.h>
+#include <inc/iotfs_oic_file.h>
 #include <iotfs/utils.h>
 
 using namespace std::placeholders;

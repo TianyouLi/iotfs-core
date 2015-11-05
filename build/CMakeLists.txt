@@ -3,21 +3,15 @@ CMAKE_MINIMUM_REQUIRED ( VERSION 2.6)
 PROJECT( iotfs )
 
 ## set output directory
-set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../lib )
-set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../lib )
 set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin )
 
-file ( GLOB_RECURSE iotfs_SRC "${CMAKE_SOURCE_DIR}/../src/*.cpp" )
+file ( GLOB iotfs_SRC "${CMAKE_SOURCE_DIR}/../src/*.cpp" )
 
 ADD_EXECUTABLE ( iotfs  ${iotfs_SRC} )
 
 INCLUDE_DIRECTORIES (
 	${CMAKE_SOURCE_DIR}/../inc
 	${CMAKE_SOURCE_DIR}/../deps/fusekit/fusekit/include
-	${CMAKE_SOURCE_DIR}/../deps/iotivity/iotivity/resource/include
-	${CMAKE_SOURCE_DIR}/../deps/iotivity/iotivity/resource/c_common
-	${CMAKE_SOURCE_DIR}/../deps/iotivity/iotivity/resource/csdk/stack/include
-	${CMAKE_SOURCE_DIR}/../deps/iotivity/iotivity/resource/oc_logger/include
 	/usr/include/fuse
 	)
 
@@ -30,12 +24,6 @@ if (NOT OC)
 endif ()
 
 TARGET_LINK_LIBRARIES ( iotfs
-	${OC}
-	octbstack
-	oc_logger
-	connectivity_abstraction
-	coap
-	glib-2.0
 	fuse
 	rt
 	dl

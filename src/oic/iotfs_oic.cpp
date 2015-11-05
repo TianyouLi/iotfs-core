@@ -5,8 +5,8 @@
 #include <boost/algorithm/string.hpp>
 
 // ourselves
-#include <iotfs/oic/iotfs_oic.h>
-#include <iotfs/oic/iotfs_oic_directory.h>
+#include <inc/iotfs_oic.h>
+#include <inc/iotfs_oic_directory.h>
 
 using namespace OC;
 using namespace std::placeholders;

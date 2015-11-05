@@ -3,20 +3,20 @@
 #include <chrono>
 
 #include <fusekit/daemon.h>
-#include <iotfs/oic/iotfs_oic.h>
+#include <iotfs/iotfs.h>
 
 iotfs::daemon& g_daemon = iotfs::daemon::instance();
 
 namespace iotfs {
 CDtor::CDtor() {
-  IoTInfoProvider* provider = new OICInfoProvider(g_daemon);
-  provider->initialize();
-  _data = provider;
+  // IoTInfoProvider* provider = new OICInfoProvider(g_daemon);
+  // provider->initialize();
+  // _data = provider;
 }
 
 CDtor::~CDtor() {
-  IoTInfoProvider* provider = static_cast<IoTInfoProvider*>(_data);
-  delete provider;
+  // IoTInfoProvider* provider = static_cast<IoTInfoProvider*>(_data);
+  // delete provider;
 }
 }
 

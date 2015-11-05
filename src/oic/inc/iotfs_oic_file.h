@@ -11,7 +11,7 @@
 
 #include <iotfs/iotfs.h>
 #include <iotfs/iotfs_file.h>
-#include <iotfs/oic/iotfs_oic_stub.h>
+#include <inc/iotfs_oic_stub.h>
 
 using namespace fusekit;
 using namespace std::placeholders;

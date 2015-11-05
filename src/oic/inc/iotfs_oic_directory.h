@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <iotfs/iotfs_directory.h>
-#include <iotfs/oic/iotfs_oic_stub.h>
+#include <inc/iotfs_oic_stub.h>
 
 namespace iotfs {
 class OICFolder : public IOTFolder {

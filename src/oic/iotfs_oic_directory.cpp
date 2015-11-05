@@ -1,5 +1,5 @@
-#include <iotfs/oic/iotfs_oic_directory.h>
-#include <iotfs/oic/iotfs_oic_file.h>
+#include <inc/iotfs_oic_directory.h>
+#include <inc/iotfs_oic_file.h>
 
 using namespace OC;
 

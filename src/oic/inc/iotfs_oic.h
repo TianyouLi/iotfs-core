@@ -11,8 +11,8 @@
 #include <condition_variable>
 
 #include <iotfs/iotfs.h>
-#include <iotfs/oic/iotfs_oic_directory.h>
-#include <iotfs/oic/iotfs_oic_stub.h>
+#include <inc/iotfs_oic_directory.h>
+#include <inc/iotfs_oic_stub.h>
 
 #include <OCPlatform.h>
 #include <OCApi.h>
