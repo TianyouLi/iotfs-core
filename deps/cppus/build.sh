@@ -11,6 +11,6 @@ git clone https://github.com/TianyouLi/CppMicroServices.git
 mkdir -p ${BLD_DIR}/build
 
 cd ${BLD_DIR}/build
-cmake -DUS_ENABLE_THREADING_SUPPORT=yes -DUS_BUILD_TESTING=yes -DCMAKE_CXX_COMPILER_ARG1=-std=c++0x ${BLD_DIR}/CppMicroServices
+cmake -DUS_ENABLE_THREADING_SUPPORT=yes -DUS_BUILD_TESTING=yes -DUS_BUILD_EXAMPLES=yes -DCMAKE_CXX_COMPILER_ARG1=-std=c++0x ${BLD_DIR}/CppMicroServices
 make
 cd ${CUR_DIR}
