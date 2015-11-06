@@ -4,11 +4,13 @@
 
 #include <fusekit/daemon.h>
 #include <iotfs/iotfs.h>
+#include <plugins/plugin_manager.h>
 
 iotfs::daemon& g_daemon = iotfs::daemon::instance();
 
 namespace iotfs {
 CDtor::CDtor() {
+  PluginManager* pm = PluginManager::instance();
   // IoTInfoProvider* provider = new OICInfoProvider(g_daemon);
   // provider->initialize();
   // _data = provider;

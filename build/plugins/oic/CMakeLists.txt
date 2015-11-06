@@ -7,9 +7,7 @@ set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../../../lib )
 
 # set the path for libraries
 set(CppMicroServices_DIR ${CMAKE_SOURCE_DIR}/../../../deps/cppus/build)
-
 find_package(CppMicroServices NO_MODULE REQUIRED)
-include_directories(${CppMicroServices_INCLUDE_DIRS})
 
 # set the plugin library name
 set(lib_name iotfs-oic)
@@ -24,6 +22,7 @@ INCLUDE_DIRECTORIES (
 	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/c_common
 	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/csdk/stack/include
 	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/oc_logger/include
+	${CppMicroServices_INCLUDE_DIRS}
 	/usr/include/fuse
 	)
 
