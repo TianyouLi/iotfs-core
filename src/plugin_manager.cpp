@@ -97,12 +97,14 @@ void PluginManager::init()
     if ((*moduleIter)->IsLoaded()) {
       ModuleContext* context = (*moduleIter)->GetModuleContext();
       std::vector<ServiceReference<IoTInfoProvider> > services =
-        context->GetServiceReferences<IoTInfoProvider>();
+        context->GetServiceReferences<IoTInfoProvider>("(type=IoTInfoProvider)");
 
       BOOST_LOG_TRIVIAL(trace) << "Find  " << services.size() << " provider references";
       BOOST_FOREACH(ServiceReference<IoTInfoProvider>& value, services) {
         IoTInfoProvider* provider = context->GetService<IoTInfoProvider>(value);
-        _providers.push_back(provider);
+        if (std::find(_providers.begin(), _providers.end(), provider) == _providers.end()) {
+          _providers.push_back(provider);
+        }
       }
     }
   }

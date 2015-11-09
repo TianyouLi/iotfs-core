@@ -9,6 +9,7 @@
 
 US_USE_NAMESPACE
 
+namespace iotfs {
 class US_ABI_LOCAL Activator : public ModuleActivator {
  private:
   std::auto_ptr<iotfs::OICInfoProvider> _oic_provider;
@@ -26,6 +27,7 @@ class US_ABI_LOCAL Activator : public ModuleActivator {
     _oic_provider.reset(new iotfs::OICInfoProvider());
     ServiceProperties props;
     props["root"] = std::string("oic");
+    props["type"] = std::string("IoTInfoProvider");
     context->RegisterService<iotfs::IoTInfoProvider>(_oic_provider.get(), props);
 
     BOOST_LOG_TRIVIAL(trace) << "OIC provider registered";    
@@ -42,5 +44,6 @@ class US_ABI_LOCAL Activator : public ModuleActivator {
   }
   
 };
+}
 
-US_EXPORT_MODULE_ACTIVATOR(iotfs_oic, Activator)
+US_EXPORT_MODULE_ACTIVATOR(iotfs_oic, iotfs::Activator)
