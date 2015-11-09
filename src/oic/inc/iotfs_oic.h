@@ -23,9 +23,9 @@ typedef std::map<OC::OCResourceIdentifier, std::shared_ptr<OC::OCResource>>
 
 class OICInfoProvider : public IoTInfoProvider {
  public:
-  OICInfoProvider(iotfs::daemon& daemon);
+  OICInfoProvider();
   virtual ~OICInfoProvider();
-  virtual void initialize();
+  virtual void initialize(iotfs::daemon* daemon);
 
  private:
   void foundResource(std::shared_ptr<OC::OCResource> resource);
@@ -42,7 +42,7 @@ class OICInfoProvider : public IoTInfoProvider {
   std::ostringstream _requestURI;
   std::mutex _resourceLock;
   DiscoveredResourceMap _resources;
-  iotfs::daemon& _daemon;
+  iotfs::daemon* _daemon;
 };
 }
 

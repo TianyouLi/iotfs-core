@@ -23,7 +23,7 @@ static OICFolder& createOICFolder(IOTFolder& parent, const std::string& child,
 }
 
   
-OICInfoProvider::OICInfoProvider(iotfs::daemon& daemon) : _daemon(daemon) {
+OICInfoProvider::OICInfoProvider() {
   _cfg = {
     OC::ServiceType::InProc,
     OC::ModeType::Client,
@@ -37,7 +37,8 @@ OICInfoProvider::OICInfoProvider(iotfs::daemon& daemon) : _daemon(daemon) {
 
 OICInfoProvider::~OICInfoProvider() {}
 
-void OICInfoProvider::initialize() {
+void OICInfoProvider::initialize(iotfs::daemon* daemon) {
+  _daemon = daemon;
   OCPlatform::Configure(_cfg);
   
   OCPlatform::OCPresenceHandle presenceHandle = nullptr;
@@ -78,7 +79,7 @@ void OICInfoProvider::foundResource(std::shared_ptr<OC::OCResource> resource) {
       ss << resource->uniqueIdentifier();
       std::string uri = ss.str();
 
-      createFolderByUri(_daemon.root(), uri, resource);
+      createFolderByUri(_daemon->root(), uri, resource);
     }
   } catch (std::exception& e) {
     // error handling

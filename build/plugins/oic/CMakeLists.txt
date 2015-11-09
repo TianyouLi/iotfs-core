@@ -10,7 +10,7 @@ set(CppMicroServices_DIR ${CMAKE_SOURCE_DIR}/../../../deps/cppus/build)
 find_package(CppMicroServices NO_MODULE REQUIRED)
 
 # set the plugin library name
-set(lib_name iotfs-oic)
+set(lib_name iotfs_oic)
 
 
 # set the include directory
@@ -44,7 +44,7 @@ SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS}" )
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_LINK_FLAGS}" )
 
 # create the library
-add_library(plugin-${lib_name} SHARED ${iotfs_oic_SRC})
+add_library(plugin_${lib_name} SHARED ${iotfs_oic_SRC})
 
 # get the iotivity library
 FIND_LIBRARY (OC oc)
@@ -56,9 +56,11 @@ if (NOT OC)
 endif ()
 
 # Link the required library
-target_link_libraries(plugin-${lib_name}
+target_link_libraries(plugin_${lib_name}
 	${CppMicroServices_LIBRARIES}
 	${OC}
+	boost_system
+	boost_log
 	octbstack
 	oc_logger
 	connectivity_abstraction
