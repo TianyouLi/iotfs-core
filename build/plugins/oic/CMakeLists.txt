@@ -9,6 +9,9 @@ set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../../../lib )
 set(CppMicroServices_DIR ${CMAKE_SOURCE_DIR}/../../../deps/cppus/build)
 find_package(CppMicroServices NO_MODULE REQUIRED)
 
+# add boost
+find_package(Boost)
+
 # set the plugin library name
 set(lib_name iotfs_oic)
 
@@ -23,6 +26,7 @@ INCLUDE_DIRECTORIES (
 	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/csdk/stack/include
 	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/oc_logger/include
 	${CppMicroServices_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
 	/usr/include/fuse
 	)
 
@@ -37,7 +41,7 @@ usFunctionGenerateModuleinit(iotfs_oic_SRC
 	)
 
 # set compilation flags
-SET ( GCC_COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=27 -Wall -std=c++11 -g")
+SET ( GCC_COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=27 -DBOOST_LOG_DYN_LINK -Wall -std=c++11 -g")
 SET ( GCC_LINK_FLAGS    "-Wl,-rpath,$(IOTIVITY_LIB_PATH) -g")
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS}" )
@@ -66,8 +70,16 @@ target_link_libraries(plugin_${lib_name}
 	connectivity_abstraction
 	coap
 	glib-2.0
+	pthread
 	fuse
 	rt
 	dl
 	m
 	)
+
+set_target_properties(plugin_${lib_name} PROPERTIES
+	LABELS Plugins
+	OUTPUT_NAME ${lib_name}
+	)
+
+		

@@ -1,6 +1,6 @@
 <plugins>
 	<plugin>
-		<name>plugin_iotfs_oic</name>
+		<name>iotfs_oic</name>
 		<path>../lib</path>
 	</plugin>
 </plugins>
