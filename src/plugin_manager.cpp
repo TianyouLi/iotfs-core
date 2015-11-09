@@ -70,7 +70,7 @@ void PluginManager::init()
 
   // iterate configuration for configured plugins
   BOOST_LOG_TRIVIAL(trace) << "Target load plugins...";    
-  BOOST_FOREACH(pt::ptree::value_type &node, _pt.get_child("plugins")) {
+  for(pt::ptree::value_type &node : _pt.get_child("plugins")) {
     if (node.first == "plugin") {
       std::string name(node.second.get<std::string>("name"));
       std::string path(current_path.generic_string() + "/" + node.second.get<std::string>("path"));
@@ -87,20 +87,18 @@ void PluginManager::init()
   std::vector<Module*> modules = ModuleRegistry::GetModules();
 
   BOOST_LOG_TRIVIAL(trace) << "Print existing plugins... ";
-  for (std::vector<Module*>::const_iterator moduleIter = modules.begin();
-       moduleIter != modules.end(); ++moduleIter) {
-    BOOST_LOG_TRIVIAL(trace) << "Module Name: " << (*moduleIter)->GetName()
-                             << " Module ID: " << (*moduleIter)->GetModuleId()
-                             << " Status: "
-                             << ((*moduleIter)->IsLoaded() ? "LOADED" : "UNLOADED");
+  for (Module* module : modules) {
+    BOOST_LOG_TRIVIAL(trace) << "Module Name: " << module->GetName()
+                             << " Module ID: "  << module->GetModuleId()
+                             << " Status: "     << (module->IsLoaded() ? "LOADED" : "UNLOADED");
 
-    if ((*moduleIter)->IsLoaded()) {
-      ModuleContext* context = (*moduleIter)->GetModuleContext();
+    if (module->IsLoaded()) {
+      ModuleContext* context = module->GetModuleContext();
       std::vector<ServiceReference<IoTInfoProvider> > services =
         context->GetServiceReferences<IoTInfoProvider>("(type=IoTInfoProvider)");
 
       BOOST_LOG_TRIVIAL(trace) << "Find  " << services.size() << " provider references";
-      BOOST_FOREACH(ServiceReference<IoTInfoProvider>& value, services) {
+      for (ServiceReference<IoTInfoProvider>& value : services) {
         IoTInfoProvider* provider = context->GetService<IoTInfoProvider>(value);
         if (std::find(this->begin(), this->end(), provider) == this->end()) {
           this->push_back(provider);
