@@ -20,7 +20,7 @@ US_USE_NAMESPACE
 
 namespace iotfs {
 
-class PluginManager {
+class PluginManager : public std::vector<IoTInfoProvider*> {
 
 public:
   static PluginManager* instance();
@@ -40,9 +40,6 @@ private:
 private:
   // ptree object
   ptree                 _pt;
-
-  // list of iot info providers
-  std::vector<IoTInfoProvider*> _providers;
 };
   
 }

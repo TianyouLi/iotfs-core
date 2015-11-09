@@ -102,16 +102,15 @@ void PluginManager::init()
       BOOST_LOG_TRIVIAL(trace) << "Find  " << services.size() << " provider references";
       BOOST_FOREACH(ServiceReference<IoTInfoProvider>& value, services) {
         IoTInfoProvider* provider = context->GetService<IoTInfoProvider>(value);
-        if (std::find(_providers.begin(), _providers.end(), provider) == _providers.end()) {
-          _providers.push_back(provider);
+        if (std::find(this->begin(), this->end(), provider) == this->end()) {
+          this->push_back(provider);
         }
       }
     }
   }
 
-  BOOST_LOG_TRIVIAL(trace) << "Total " << _providers.size() << " providers loaded";
+  BOOST_LOG_TRIVIAL(trace) << "Total " << this->size() << " providers loaded";
 }
 
 
-  
 }

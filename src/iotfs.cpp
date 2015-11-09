@@ -11,9 +11,9 @@ iotfs::daemon& g_daemon = iotfs::daemon::instance();
 namespace iotfs {
 CDtor::CDtor() {
   PluginManager* pm = PluginManager::instance();
-  // IoTInfoProvider* provider = new OICInfoProvider(g_daemon);
-  // provider->initialize();
-  // _data = provider;
+  for (IoTInfoProvider* provider : *pm) {
+    provider->initialize(&g_daemon);
+  }
 }
 
 CDtor::~CDtor() {
