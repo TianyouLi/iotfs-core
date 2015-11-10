@@ -22,14 +22,6 @@ INCLUDE_DIRECTORIES (
 	/usr/include/fuse
 	)
 
-FIND_LIBRARY (OC oc)
-if (NOT OC)
-  SET ( IOTIVITY_LIB_PATH ${CMAKE_SOURCE_DIR}/../deps/iotivity/iotivity/out/linux/x86_64/release )
-  SET ( CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${IOTIVITY_LIB_PATH} )
-  LINK_DIRECTORIES ( ${IOTIVITY_LIB_PATH} )
-  FIND_LIBRARY (OC oc ${IOTIVITY_LIB_PATH} )
-endif ()
-
 TARGET_LINK_LIBRARIES ( iotfs
 	${CppMicroServices_LIBRARIES}
 	boost_system
