@@ -40,11 +40,6 @@ typedef fusekit::daemon<CDtor, iotfs::IOTFolder, fusekit::no_lock> daemon;
 
   
 //-
-// The item type indicates which type of the item belongs to.
-//-
-enum IoTInfoItemType { SERVER, RESOURCE, DEVICE };
-
-//-
 // The provider will provide iot info items.
 //-
 class IOTINFOPROVIDER_EXPORT IoTInfoProvider {
