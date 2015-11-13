@@ -3,20 +3,21 @@ CMAKE_MINIMUM_REQUIRED ( VERSION 2.6)
 PROJECT( iotfs )
 
 ## set output directory
-set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin )
+SET ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${iotfs_SOURCE_DIR}/../bin )
+SET (iotfs_BINARY_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-file ( GLOB iotfs_SRC "${CMAKE_SOURCE_DIR}/../src/*.cpp" )
+FILE ( GLOB iotfs_SRC "${iotfs_SOURCE_DIR}/../src/*.cpp" )
 
 ADD_EXECUTABLE ( iotfs  ${iotfs_SRC} )
 
 # set the path for libraries
-set(CppMicroServices_DIR ${CMAKE_SOURCE_DIR}/../deps/cppus/build)
-find_package(CppMicroServices NO_MODULE REQUIRED)
-find_package(Boost)
+SET(CppMicroServices_DIR ${iotfs_SOURCE_DIR}/../deps/cppus/build)
+FIND_PACKAGE(CppMicroServices NO_MODULE REQUIRED)
+FIND_PACKAGE(Boost)
 
 INCLUDE_DIRECTORIES (
-	${CMAKE_SOURCE_DIR}/../inc
-	${CMAKE_SOURCE_DIR}/../deps/fusekit/fusekit/include
+	${iotfs_SOURCE_DIR}/../inc
+	${iotfs_SOURCE_DIR}/../deps/fusekit/fusekit/include
 	${CppMicroServices_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	/usr/include/fuse
