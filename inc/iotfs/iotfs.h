@@ -49,7 +49,9 @@ class IOTINFOPROVIDER_EXPORT IoTInfoProvider {
  public:
   virtual void initialize(iotfs::daemon* daemon) = 0;
 };
-  
+
+
+static iotfs::daemon& g_daemon = iotfs::daemon::instance();
 }
 
 US_DECLARE_SERVICE_INTERFACE(iotfs::IoTInfoProvider, "IoTInfoProvider/1.0");

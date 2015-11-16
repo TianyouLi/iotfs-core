@@ -6,8 +6,6 @@
 #include <iotfs/iotfs.h>
 #include <plugins/plugin_manager.h>
 
-iotfs::daemon& g_daemon = iotfs::daemon::instance();
-
 namespace iotfs {
 CDtor::CDtor() {
   PluginManager* pm = PluginManager::instance();
@@ -22,4 +20,3 @@ CDtor::~CDtor() {
 }
 }
 
-int main(int argc, char* argv[]) { return g_daemon.run(argc, argv); }
