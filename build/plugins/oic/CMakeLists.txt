@@ -2,11 +2,11 @@ project(IoTFS_OIC_Plugin)
 cmake_minimum_required(VERSION 2.8)
 
 # set output library path
-set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../../../lib )
-set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../../../lib )
+set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../lib )
+set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../lib )
 
 # set the path for libraries
-set(CppMicroServices_DIR ${CMAKE_SOURCE_DIR}/../../../deps/cppus/build)
+set(CppMicroServices_DIR ${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/cppus/build)
 find_package(CppMicroServices NO_MODULE REQUIRED)
 
 # add boost
@@ -18,20 +18,20 @@ set(lib_name iotfs_oic)
 
 # set the include directory
 INCLUDE_DIRECTORIES (
-	${CMAKE_SOURCE_DIR}/../../../inc
-	${CMAKE_SOURCE_DIR}/../../../src/oic
-	${CMAKE_SOURCE_DIR}/../../../deps/fusekit/fusekit/include
-	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/include
-	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/c_common
-	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/csdk/stack/include
-	${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/oc_logger/include
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../inc
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../src/oic
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/fusekit/fusekit/include
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/include
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/c_common
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/csdk/stack/include
+	${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/iotivity/iotivity/resource/oc_logger/include
 	${CppMicroServices_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	/usr/include/fuse
 	)
 
 # set the plugin source file list
-file( GLOB_RECURSE iotfs_oic_SRC "${CMAKE_SOURCE_DIR}/../../../src/oic/*.cpp" )
+file( GLOB_RECURSE iotfs_oic_SRC "${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../src/oic/*.cpp" )
 
 
 # Generate module initialization code
@@ -53,7 +53,7 @@ add_library(plugin_${lib_name} SHARED ${iotfs_oic_SRC})
 # get the iotivity library
 FIND_LIBRARY (OC oc)
 if (NOT OC)
-  SET ( IOTIVITY_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../deps/iotivity/iotivity/out/linux/x86_64/release )
+  SET ( IOTIVITY_LIB_PATH ${IoTFS_OIC_Plugin_SOURCE_DIR}/../../../deps/iotivity/iotivity/out/linux/x86_64/release )
   SET ( CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${IOTIVITY_LIB_PATH} )
   LINK_DIRECTORIES ( ${IOTIVITY_LIB_PATH} )
   FIND_LIBRARY (OC oc ${IOTIVITY_LIB_PATH} )

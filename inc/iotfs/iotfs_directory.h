@@ -10,7 +10,7 @@ class IOTFolder : public default_directory<>::type {
  public:
   virtual ~IOTFolder(){};
 
-  virtual IOTFolder& makeChildFolder(const std::string& name);
+  virtual IOTFolder& makeChildFolder(const std::string& name) ;
 };
   
 }

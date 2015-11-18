@@ -43,6 +43,7 @@ class OICInfoProvider : public IoTInfoProvider {
   std::mutex _resourceLock;
   DiscoveredResourceMap _resources;
   iotfs::daemon* _daemon;
+  bool _initialized;
 };
 }
 

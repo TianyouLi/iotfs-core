@@ -23,7 +23,7 @@ static OICFolder& createOICFolder(IOTFolder& parent, const std::string& child,
 }
 
   
-OICInfoProvider::OICInfoProvider() {
+OICInfoProvider::OICInfoProvider() : _initialized(false) {
   _cfg = {
     OC::ServiceType::InProc,
     OC::ModeType::Client,
@@ -38,6 +38,8 @@ OICInfoProvider::OICInfoProvider() {
 OICInfoProvider::~OICInfoProvider() {}
 
 void OICInfoProvider::initialize(iotfs::daemon* daemon) {
+  if (_initialized) return;
+  
   _daemon = daemon;
   OCPlatform::Configure(_cfg);
   
@@ -53,6 +55,8 @@ void OICInfoProvider::initialize(iotfs::daemon* daemon) {
 
   auto discovery_callback = std::bind(&OICInfoProvider::foundResource, this, _1);
   OCPlatform::findResource("", _requestURI.str(), CT_ADAPTER_IP, discovery_callback);
+
+  _initialized = true;
 }
 
 
