@@ -21,23 +21,10 @@ US_USE_NAMESPACE
 namespace iotfs {
 
 //-
-// CDtor was used for initialize/cleanup during filesystem mount/umount
-//-
-class CDtor {
- public:
-  CDtor();
-  virtual ~CDtor();
-
- private:
-  void* _data;
-};
-
-  
-//-
 // define a daemon type that use CDtor as initialize/cleanup
 //-
-typedef fusekit::daemon<CDtor, iotfs::IOTFolder, fusekit::no_lock> daemon;
-
+typedef fusekit::daemon<iotfs::IOTFolder, fusekit::no_lock> daemon;
+  
   
 //-
 // The provider will provide iot info items.
@@ -52,6 +39,9 @@ class IOTINFOPROVIDER_EXPORT IoTInfoProvider {
 
 
 static iotfs::daemon& g_daemon = iotfs::daemon::instance();
+
+void initialize();
+  
 }
 
 US_DECLARE_SERVICE_INTERFACE(iotfs::IoTInfoProvider, "IoTInfoProvider/1.0");
