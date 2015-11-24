@@ -1,3 +1,6 @@
+// boost trivial logger
+#include <boost/log/trivial.hpp>
+
 #include <inc/iotfs_oic_file.h>
 #include <iotfs/utils.h>
 
@@ -37,12 +40,12 @@ void OICFile::setAllowedOperation(const std::vector<std::string>& interfaces) {
 
 void OICFile::update() {
   if (!(_allowedOperation & OICFileOperationWrite)) {
-    std::cout << "Write Operation Is Not Allowed For This File" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "Write Operation Is Not Allowed For This File" ;
     return;
   }
 
   if (_stub == NULL) {
-    std::cout << "File Operation Error" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "File Operation Error" ;
     return;
   }
 
@@ -72,12 +75,12 @@ void OICFile::didUpdate(const OC::HeaderOptions& headerOptions,
 
 void OICFile::retrieve() {
   if (!(_allowedOperation & OICFileOperationRead)) {
-    std::cout << "Read Operation Is Not Allowed For This File" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "Read Operation Is Not Allowed For This File";
     return;
   }
 
   if (_stub == NULL) {
-    std::cout << "File Operation Error" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "File Operation Error";
     return;
   }
 
@@ -104,7 +107,7 @@ void OICFile::didRetrieve(const OC::HeaderOptions& headerOptions,
 
 int OICFile::read(std::ostream& os) {
   if (_stub == NULL) {
-    std::cout << "Read File Error" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "Read File Error" ;
     return -1;
   }
 
@@ -122,7 +125,7 @@ int OICFile::read(std::ostream& os) {
 // This must be called with a '\n' !!!!
 int OICFile::write(std::istream& is) {
   if (_stub == NULL) {
-    std::cout << "Write File Error" << std::endl;
+    BOOST_LOG_TRIVIAL(error) << "Write File Error";
     return -1;
   }
 
@@ -130,7 +133,7 @@ int OICFile::write(std::istream& is) {
   is >> result;
 
   std::map<std::string, OICFileDescriptor>::iterator it;
-  ;
+
   for (it = _values.begin(); it != _values.end(); ++it) {
     it->second.content = result;
   }

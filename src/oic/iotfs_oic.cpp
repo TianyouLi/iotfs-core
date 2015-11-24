@@ -4,6 +4,9 @@
 // boost lib
 #include <boost/algorithm/string.hpp>
 
+// boost trivial logger
+#include <boost/log/trivial.hpp>
+
 // ourselves
 #include <inc/iotfs_oic.h>
 #include <inc/iotfs_oic_directory.h>
@@ -17,7 +20,7 @@ static OICFolder& createOICFolder(IOTFolder& parent, const std::string& child,
                                   std::shared_ptr<OC::OCResource> resource) {
   fusekit::entry* e = parent.find(child.c_str());
   if (e == NULL) {
-    return parent.add_directory(child.c_str(), new OICFolder(resource));
+    return parent.add_directory(child.c_str(), new OICFolder());
   }
   return *dynamic_cast<OICFolder*>(e);
 }
@@ -66,7 +69,7 @@ void OICInfoProvider::createFolderByUri(
   std::size_t pos = uri.find("/");
   if (std::string::npos == pos) {  // not found, create the directory
     OICFolder& folder = createOICFolder(parent, uri, resource);
-    folder.createResourceTypeFolder();
+    folder.createResourceTypeFolder(resource);
   } else {
     std::string stepUri = uri.substr(0, pos);
     IOTFolder& step = parent.makeChildFolder(stepUri);
@@ -93,22 +96,22 @@ void OICInfoProvider::foundResource(std::shared_ptr<OC::OCResource> resource) {
 void OICInfoProvider::presenceHandler(OCStackResult result,
                                       const unsigned int nonce,
                                       const std::string& hostAddress) {
-  std::cout << "Received presence notification from : " << hostAddress
-            << std::endl;
-  std::cout << "In presenceHandler: ";
+  BOOST_LOG_TRIVIAL(trace) << "Received presence notification from : "
+                           << hostAddress;
+  BOOST_LOG_TRIVIAL(trace) << "In presenceHandler: ";
 
   switch (result) {
     case OC_STACK_OK:
-      std::cout << "Nonce# " << nonce << std::endl;
+      BOOST_LOG_TRIVIAL(trace) << "Nonce# " << nonce ;
       break;
     case OC_STACK_PRESENCE_STOPPED:
-      std::cout << "Presence Stopped\n";
+      BOOST_LOG_TRIVIAL(trace) << "Presence Stopped";
       break;
     case OC_STACK_PRESENCE_TIMEOUT:
-      std::cout << "Presence Timeout\n";
+      BOOST_LOG_TRIVIAL(trace) << "Presence Timeout";
       break;
     default:
-      std::cout << "Error\n";
+      BOOST_LOG_TRIVIAL(error) << "Error";
       break;
   }
 
