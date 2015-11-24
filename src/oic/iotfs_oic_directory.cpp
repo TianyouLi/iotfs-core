@@ -48,8 +48,7 @@ void OICFolder::onGetState(const OC::HeaderOptions& headerOptions,
         std::pair<std::string, OICFileDescriptor>(it->attrname(), descriptor));
 
     OICFile* file =
-        new OICFile(it->attrname(), _stub->getResourceInterfaces(), attributes);
-    file->setOICStub(_stub);
+      new OICFile(it->attrname(), _stub->getResourceInterfaces(), attributes, _stub);
     this->add_file(it->attrname().c_str(), file);
   }
 

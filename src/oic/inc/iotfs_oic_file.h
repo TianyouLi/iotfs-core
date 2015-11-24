@@ -33,13 +33,12 @@ class OICFile : public IOTFile {
  public:
   OICFile(const std::string& resourceTypeName,
           const std::vector<std::string>& resourceIntefaces,
-          const OICFileAttributes& attributes);
+          const OICFileAttributes& attributes,
+          std::shared_ptr<OICStub> stub);
   virtual ~OICFile();
 
   virtual int read(std::ostream& os);
   virtual int write(std::istream& is);
-
-  void setOICStub(std::shared_ptr<OICStub> stub) { _stub = stub; }
 
  private:
   std::string _fileName;

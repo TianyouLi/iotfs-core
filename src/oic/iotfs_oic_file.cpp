@@ -7,7 +7,11 @@ using namespace OC;
 namespace iotfs {
 OICFile::OICFile(const std::string& resourceTypeName,
                  const std::vector<std::string>& resourceIntefaces,
-                 const OICFileAttributes& attributes):_fileName(resourceTypeName), _values(attributes)
+                 const OICFileAttributes& attributes,
+                 std::shared_ptr<OICStub> stub)
+  :_fileName(resourceTypeName),
+   _values(attributes),
+   _stub(stub)
 {
   setAllowedOperation(resourceIntefaces);
 }
