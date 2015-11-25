@@ -18,7 +18,7 @@ ${APT} fuse libfuse-dev
 ${APT} scons libglib2.0-dev libexpat1-dev libboost-dev libboost-thread-dev zip unzip uuid-dev libssl-dev
 
 # install required tools for iotfs
-${APT} libboost-log-dev lcov
+${APT} libboost-log-dev lcov realpath
 
 # install required tools for
 ${APT} cmake
