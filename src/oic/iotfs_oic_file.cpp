@@ -50,16 +50,16 @@ void OICFile::update() {
   }
 
   OCRepresentation rep;
-  std::map<std::string, OICFileDescriptor>::iterator it;
-  for (it = _values.begin(); it != _values.end(); ++it) {
-    if (it->second.type == AttributeType::Integer) {
-      int value = boost::lexical_cast<int>(it->second.content);
-      rep.setValue(it->first, value);
-    } else if (it->second.type == AttributeType::String) {
-      rep.setValue(it->first, it->second.content);
-    } else if (it->second.type == AttributeType::Boolean) {
-      bool value = boost::lexical_cast<bool>(it->second.content);
-      rep.setValue(it->first, value);
+  
+  for (auto& it : _values) {
+    if (it.second.type == AttributeType::Integer) {
+      int value = boost::lexical_cast<int>(it.second.content);
+      rep.setValue(it.first, value);
+    } else if (it.second.type == AttributeType::String) {
+      rep.setValue(it.first, it.second.content);
+    } else if (it.second.type == AttributeType::Boolean) {
+      bool value = boost::lexical_cast<bool>(it.second.content);
+      rep.setValue(it.first, value);
     }
   }
 
@@ -92,12 +92,11 @@ void OICFile::retrieve() {
 void OICFile::didRetrieve(const OC::HeaderOptions& headerOptions,
                           const OC::OCRepresentation& rep, const int eCode) {
   if (eCode == OC_STACK_OK) {
-    OCRepresentation::const_iterator it = rep.begin();
-    for (; it != rep.end(); ++it) {
-      std::string attrName = it->attrname();
+    for (auto& it : rep) {
+      std::string attrName = it.attrname();
 
       if (_values.find(attrName) != _values.end()) {
-        _values[attrName].content = it->getValueToString();
+        _values[attrName].content = it.getValueToString();
       }
     }
   }
@@ -113,10 +112,8 @@ int OICFile::read(std::ostream& os) {
 
   retrieve();
 
-  std::map<std::string, OICFileDescriptor>::iterator it;
-  ;
-  for (it = _values.begin(); it != _values.end(); ++it) {
-    os << it->second.content;
+  for (auto& it : _values) {
+    os << it.second.content;
   }
 
   return 0;
@@ -132,10 +129,8 @@ int OICFile::write(std::istream& is) {
   std::string result;
   is >> result;
 
-  std::map<std::string, OICFileDescriptor>::iterator it;
-
-  for (it = _values.begin(); it != _values.end(); ++it) {
-    it->second.content = result;
+  for (auto& it : _values) {
+    it.second.content = result;
   }
 
   update();
