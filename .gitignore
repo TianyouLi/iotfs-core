@@ -61,3 +61,5 @@ deps/cppus/build/
 deps/fusekit/fusekit/
 deps/iotivity/iotivity/
 
+# generated documents
+documents/**
