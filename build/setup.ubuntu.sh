@@ -23,4 +23,8 @@ ${APT} libboost-log-dev lcov realpath
 # install required tools for
 ${APT} cmake
 
+# add current user to fusegroup
+USER=`id -un`
+sudo gpasswd -a ${USER} fuse
+
 cd ${CUR_DIR}
