@@ -9,11 +9,9 @@
 namespace iotfs {
 
 void initialize() {
-  PluginManager* pm = PluginManager::instance();
-  for (IoTInfoProvider* provider : *pm) {
+  PluginManager *pm = PluginManager::instance();
+  for (IoTInfoProvider *provider : *pm) {
     provider->initialize(&g_daemon);
   }
 }
-
 }
-

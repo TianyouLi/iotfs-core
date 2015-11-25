@@ -1,0 +1,4 @@
+BasedOnStyle: LLVM
+AlignTrailingComments: true
+Language: Cpp
+AccessModifierOffset: 0

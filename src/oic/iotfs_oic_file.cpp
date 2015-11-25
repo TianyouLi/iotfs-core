@@ -8,21 +8,18 @@ using namespace std::placeholders;
 using namespace OC;
 
 namespace iotfs {
-OICFile::OICFile(const std::string& resourceTypeName,
-                 const std::vector<std::string>& resourceIntefaces,
-                 const OICFileAttributes& attributes,
+OICFile::OICFile(const std::string &resourceTypeName,
+                 const std::vector<std::string> &resourceIntefaces,
+                 const OICFileAttributes &attributes,
                  std::shared_ptr<OICStub> stub)
-  :_fileName(resourceTypeName),
-   _values(attributes),
-   _stub(stub)
-{
+    : _fileName(resourceTypeName), _values(attributes), _stub(stub) {
   setAllowedOperation(resourceIntefaces);
 }
 
 OICFile::~OICFile() {}
 
-void OICFile::setAllowedOperation(const std::vector<std::string>& interfaces) {
-  for (auto& interface : interfaces) {
+void OICFile::setAllowedOperation(const std::vector<std::string> &interfaces) {
+  for (auto &interface : interfaces) {
     if (interface == OC::DEFAULT_INTERFACE) {
       _allowedOperation |= OICFileOperationRead;
       _allowedOperation |= OICFileOperationWrite;
@@ -40,18 +37,18 @@ void OICFile::setAllowedOperation(const std::vector<std::string>& interfaces) {
 
 void OICFile::update() {
   if (!(_allowedOperation & OICFileOperationWrite)) {
-    BOOST_LOG_TRIVIAL(error) << "Write Operation Is Not Allowed For This File" ;
+    BOOST_LOG_TRIVIAL(error) << "Write Operation Is Not Allowed For This File";
     return;
   }
 
   if (_stub == nullptr) {
-    BOOST_LOG_TRIVIAL(error) << "File Operation Error" ;
+    BOOST_LOG_TRIVIAL(error) << "File Operation Error";
     return;
   }
 
   OCRepresentation rep;
-  
-  for (auto& it : _values) {
+
+  for (auto &it : _values) {
     if (it.second.type == AttributeType::Integer) {
       int value = boost::lexical_cast<int>(it.second.content);
       rep.setValue(it.first, value);
@@ -68,8 +65,8 @@ void OICFile::update() {
   _stub->wait();
 }
 
-void OICFile::didUpdate(const OC::HeaderOptions& headerOptions,
-                        const OC::OCRepresentation& rep, const int eCode) {
+void OICFile::didUpdate(const OC::HeaderOptions &headerOptions,
+                        const OC::OCRepresentation &rep, const int eCode) {
   _stub->resume();
 }
 
@@ -89,10 +86,10 @@ void OICFile::retrieve() {
   _stub->wait();
 }
 
-void OICFile::didRetrieve(const OC::HeaderOptions& headerOptions,
-                          const OC::OCRepresentation& rep, const int eCode) {
+void OICFile::didRetrieve(const OC::HeaderOptions &headerOptions,
+                          const OC::OCRepresentation &rep, const int eCode) {
   if (eCode == OC_STACK_OK) {
-    for (auto& it : rep) {
+    for (auto &it : rep) {
       std::string attrName = it.attrname();
 
       if (_values.find(attrName) != _values.end()) {
@@ -104,15 +101,15 @@ void OICFile::didRetrieve(const OC::HeaderOptions& headerOptions,
   _stub->resume();
 }
 
-int OICFile::read(std::ostream& os) {
+int OICFile::read(std::ostream &os) {
   if (_stub == nullptr) {
-    BOOST_LOG_TRIVIAL(error) << "Read File Error" ;
+    BOOST_LOG_TRIVIAL(error) << "Read File Error";
     return -1;
   }
 
   retrieve();
 
-  for (auto& it : _values) {
+  for (auto &it : _values) {
     os << it.second.content;
   }
 
@@ -120,7 +117,7 @@ int OICFile::read(std::ostream& os) {
 }
 
 // This must be called with a '\n' !!!!
-int OICFile::write(std::istream& is) {
+int OICFile::write(std::istream &is) {
   if (_stub == nullptr) {
     BOOST_LOG_TRIVIAL(error) << "Write File Error";
     return -1;
@@ -129,7 +126,7 @@ int OICFile::write(std::istream& is) {
   std::string result;
   is >> result;
 
-  for (auto& it : _values) {
+  for (auto &it : _values) {
     it.second.content = result;
   }
 

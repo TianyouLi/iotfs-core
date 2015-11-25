@@ -22,27 +22,26 @@ typedef std::map<OC::OCResourceIdentifier, std::shared_ptr<OC::OCResource>>
     DiscoveredResourceMap;
 
 class OICInfoProvider : public IoTInfoProvider {
- public:
+  public:
   OICInfoProvider();
   virtual ~OICInfoProvider();
-  virtual void initialize(iotfs::daemon* daemon);
+  virtual void initialize(iotfs::daemon *daemon);
 
- private:
+  private:
   void foundResource(std::shared_ptr<OC::OCResource> resource);
 
-  void createFolderByUri(IOTFolder& parent,
-                         const std::string& uri,
+  void createFolderByUri(IOTFolder &parent, const std::string &uri,
                          std::shared_ptr<OC::OCResource> resource);
 
   void presenceHandler(OCStackResult result, const unsigned int nonce,
-                       const std::string& hostAddress);
+                       const std::string &hostAddress);
 
- private:
+  private:
   OC::PlatformConfig _cfg;
   std::ostringstream _requestURI;
   std::mutex _resourceLock;
   DiscoveredResourceMap _resources;
-  iotfs::daemon* _daemon;
+  iotfs::daemon *_daemon;
   bool _initialized;
 };
 }

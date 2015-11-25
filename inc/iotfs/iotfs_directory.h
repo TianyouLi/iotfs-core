@@ -5,14 +5,13 @@
 using namespace fusekit;
 
 namespace iotfs {
-  
+
 class IOTFolder : public default_directory<>::type {
- public:
+  public:
   virtual ~IOTFolder(){};
 
-  virtual IOTFolder& makeChildFolder(const std::string& name) ;
+  virtual IOTFolder &makeChildFolder(const std::string &name);
 };
-  
 }
 
 #endif

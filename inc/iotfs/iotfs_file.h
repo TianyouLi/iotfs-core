@@ -17,7 +17,7 @@ const char DELIMITER = '\n';
 struct IOTFile
     : public iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                     default_file_permissions> {
- public:
+  public:
   IOTFile()
       : iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                default_file_permissions>(
@@ -27,8 +27,8 @@ struct IOTFile
   virtual ~IOTFile() {}
 
   // make it as an pure abstract class
-  virtual int read(std::ostream& os) = 0;
-  virtual int write(std::istream& is) = 0;
+  virtual int read(std::ostream &os) = 0;
+  virtual int write(std::istream &is) = 0;
 };
 }
 

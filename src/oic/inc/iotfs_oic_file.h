@@ -30,32 +30,31 @@ typedef enum OICFileOpeartion {
 } OICFileOpeartion;
 
 class OICFile : public IOTFile {
- public:
-  OICFile(const std::string& resourceTypeName,
-          const std::vector<std::string>& resourceIntefaces,
-          const OICFileAttributes& attributes,
-          std::shared_ptr<OICStub> stub);
+  public:
+  OICFile(const std::string &resourceTypeName,
+          const std::vector<std::string> &resourceIntefaces,
+          const OICFileAttributes &attributes, std::shared_ptr<OICStub> stub);
   virtual ~OICFile();
 
-  virtual int read(std::ostream& os);
-  virtual int write(std::istream& is);
+  virtual int read(std::ostream &os);
+  virtual int write(std::istream &is);
 
- private:
+  private:
   std::string _fileName;
   std::string _resourceURI;
   int _allowedOperation;
   OICFileAttributes _values;
   std::shared_ptr<OICStub> _stub;
 
-  void setAllowedOperation(const std::vector<std::string>& interfaces);
+  void setAllowedOperation(const std::vector<std::string> &interfaces);
 
   void update();
-  void didUpdate(const OC::HeaderOptions& headerOptions,
-                 const OC::OCRepresentation& rep, const int eCode);
+  void didUpdate(const OC::HeaderOptions &headerOptions,
+                 const OC::OCRepresentation &rep, const int eCode);
 
   void retrieve();
-  void didRetrieve(const OC::HeaderOptions& headerOptions,
-                   const OC::OCRepresentation& rep, const int eCode);
+  void didRetrieve(const OC::HeaderOptions &headerOptions,
+                   const OC::OCRepresentation &rep, const int eCode);
 };
 }
 

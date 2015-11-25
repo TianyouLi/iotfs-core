@@ -12,11 +12,10 @@
 US_USE_NAMESPACE
 
 #ifdef IOTINFOPROVIDER_EXPORTS
-  #define IOTINFOPROVIDER_EXPORT US_ABI_EXPORT
+#define IOTINFOPROVIDER_EXPORT US_ABI_EXPORT
 #else
-  #define IOTINFOPROVIDER_EXPORT US_ABI_IMPORT
+#define IOTINFOPROVIDER_EXPORT US_ABI_IMPORT
 #endif
-
 
 namespace iotfs {
 
@@ -24,24 +23,21 @@ namespace iotfs {
 // define a daemon type that use CDtor as initialize/cleanup
 //-
 typedef fusekit::daemon<iotfs::IOTFolder, fusekit::no_lock> daemon;
-  
-  
+
 //-
 // The provider will provide iot info items.
 //-
 class IOTINFOPROVIDER_EXPORT IoTInfoProvider {
- public:
+  public:
   virtual ~IoTInfoProvider(){};
 
- public:
-  virtual void initialize(iotfs::daemon* daemon) = 0;
+  public:
+  virtual void initialize(iotfs::daemon *daemon) = 0;
 };
 
-
-static iotfs::daemon& g_daemon = iotfs::daemon::instance();
+static iotfs::daemon &g_daemon = iotfs::daemon::instance();
 
 void initialize();
-  
 }
 
 US_DECLARE_SERVICE_INTERFACE(iotfs::IoTInfoProvider, "IoTInfoProvider/1.0");
