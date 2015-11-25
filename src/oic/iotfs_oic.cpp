@@ -19,7 +19,7 @@ namespace iotfs {
 static OICFolder& createOICFolder(IOTFolder& parent, const std::string& child,
                                   std::shared_ptr<OC::OCResource> resource) {
   fusekit::entry* e = parent.find(child.c_str());
-  if (e == NULL) {
+  if (e == nullptr) {
     return parent.add_directory(child.c_str(), new OICFolder());
   }
   return *dynamic_cast<OICFolder*>(e);

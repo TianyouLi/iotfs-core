@@ -10,7 +10,7 @@ namespace iotfs {
 
 OICFolder& OICFolder::makeChildFolder(const std::string& name) {
   fusekit::entry* e = this->find(name.c_str());
-  if (e == NULL) {
+  if (e == nullptr) {
     return this->add_directory(name.c_str(), new OICFolder());
   }
   return *dynamic_cast<OICFolder*>(e);
@@ -32,7 +32,7 @@ void OICFolder::createResourceTypeFolder(std::shared_ptr<OC::OCResource> resourc
 }
   
 void OICRTFolder::getState() {
-  if (_stub == NULL) {
+  if (_stub == nullptr) {
     BOOST_LOG_TRIVIAL(error) << "Error Operation";
     return;
   }

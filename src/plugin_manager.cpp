@@ -29,7 +29,7 @@ US_USE_NAMESPACE
 
 namespace iotfs {
 
-PluginManager* PluginManager::_instance = NULL;
+PluginManager* PluginManager::_instance = nullptr;
   
 PluginManager::PluginManager()
 {
@@ -43,7 +43,7 @@ PluginManager::~PluginManager()
 
 PluginManager* PluginManager::instance()
 {
-  if (_instance == NULL) {
+  if (_instance == nullptr) {
     _instance = new PluginManager();
     _instance->init();
   }

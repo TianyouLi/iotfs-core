@@ -44,7 +44,7 @@ void OICFile::update() {
     return;
   }
 
-  if (_stub == NULL) {
+  if (_stub == nullptr) {
     BOOST_LOG_TRIVIAL(error) << "File Operation Error" ;
     return;
   }
@@ -79,7 +79,7 @@ void OICFile::retrieve() {
     return;
   }
 
-  if (_stub == NULL) {
+  if (_stub == nullptr) {
     BOOST_LOG_TRIVIAL(error) << "File Operation Error";
     return;
   }
@@ -105,7 +105,7 @@ void OICFile::didRetrieve(const OC::HeaderOptions& headerOptions,
 }
 
 int OICFile::read(std::ostream& os) {
-  if (_stub == NULL) {
+  if (_stub == nullptr) {
     BOOST_LOG_TRIVIAL(error) << "Read File Error" ;
     return -1;
   }
@@ -121,7 +121,7 @@ int OICFile::read(std::ostream& os) {
 
 // This must be called with a '\n' !!!!
 int OICFile::write(std::istream& is) {
-  if (_stub == NULL) {
+  if (_stub == nullptr) {
     BOOST_LOG_TRIVIAL(error) << "Write File Error";
     return -1;
   }
