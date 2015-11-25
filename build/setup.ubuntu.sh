@@ -7,6 +7,8 @@ ROOT_DIR=${BLD_DIR}/../../
 
 cd ${ROOT_DIR}
 
+sudo apt-get update
+
 APT="sudo apt-get install -y"
 
 # install required libraries for fusekit
