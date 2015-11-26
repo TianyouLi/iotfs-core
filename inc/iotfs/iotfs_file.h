@@ -17,7 +17,7 @@ const char DELIMITER = '\n';
 struct IOTFile
     : public iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                     default_file_permissions> {
-  public:
+public:
   IOTFile()
       : iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                default_file_permissions>(

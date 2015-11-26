@@ -7,30 +7,30 @@
 
 namespace iotfs {
 class OICFolder : public IOTFolder {
-  public:
+public:
   OICFolder() : IOTFolder(){};
 
   virtual ~OICFolder(){};
 
   virtual OICFolder &makeChildFolder(const std::string &name);
 
-  public:
+public:
   void createResourceTypeFolder(std::shared_ptr<OC::OCResource> resource);
 };
 
 class OICRTFolder : public OICFolder {
-  public:
+public:
   OICRTFolder(std::shared_ptr<OC::OCResource> resource)
       : OICFolder(), _stub(new OICStub(resource)){};
 
   ~OICRTFolder(){};
 
-  public:
+public:
   void getState();
   void onGetState(const OC::HeaderOptions &headerOptions,
                   const OC::OCRepresentation &rep, const int eCode);
 
-  private:
+private:
   std::shared_ptr<OICStub> _stub;
 };
 }

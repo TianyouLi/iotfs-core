@@ -62,13 +62,10 @@ void OICFile::update() {
 
   _stub->put(rep, QueryParamsMap(),
              std::bind(&OICFile::didUpdate, this, _1, _2, _3));
-  _stub->wait();
 }
 
 void OICFile::didUpdate(const OC::HeaderOptions &headerOptions,
-                        const OC::OCRepresentation &rep, const int eCode) {
-  _stub->resume();
-}
+                        const OC::OCRepresentation &rep, const int eCode) {}
 
 void OICFile::retrieve() {
   if (!(_allowedOperation & OICFileOperationRead)) {
@@ -83,7 +80,6 @@ void OICFile::retrieve() {
 
   _stub->get(QueryParamsMap(),
              std::bind(&OICFile::didRetrieve, this, _1, _2, _3));
-  _stub->wait();
 }
 
 void OICFile::didRetrieve(const OC::HeaderOptions &headerOptions,
@@ -97,8 +93,6 @@ void OICFile::didRetrieve(const OC::HeaderOptions &headerOptions,
       }
     }
   }
-
-  _stub->resume();
 }
 
 int OICFile::read(std::ostream &os) {

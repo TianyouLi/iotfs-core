@@ -30,7 +30,7 @@ typedef enum OICFileOpeartion {
 } OICFileOpeartion;
 
 class OICFile : public IOTFile {
-  public:
+public:
   OICFile(const std::string &resourceTypeName,
           const std::vector<std::string> &resourceIntefaces,
           const OICFileAttributes &attributes, std::shared_ptr<OICStub> stub);
@@ -39,7 +39,7 @@ class OICFile : public IOTFile {
   virtual int read(std::ostream &os);
   virtual int write(std::istream &is);
 
-  private:
+private:
   std::string _fileName;
   std::string _resourceURI;
   int _allowedOperation;

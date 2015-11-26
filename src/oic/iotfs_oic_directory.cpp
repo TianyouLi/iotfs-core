@@ -40,27 +40,24 @@ void OICRTFolder::getState() {
 
   _stub->get(QueryParamsMap(),
              std::bind(&OICRTFolder::onGetState, this, _1, _2, _3));
-  _stub->wait();
 }
 
 void OICRTFolder::onGetState(const OC::HeaderOptions &headerOptions,
                              const OC::OCRepresentation &rep, const int eCode) {
-  OC::OCRepresentation::const_iterator it = rep.begin();
-  for (; it != rep.end(); ++it) {
+  for (auto &it : rep) {
     std::map<std::string, OICFileDescriptor> attributes;
-
     OICFileDescriptor descriptor;
-    descriptor.content = it->getValueToString();
-    descriptor.type = it->type();
+
+    descriptor.content = it.getValueToString();
+    descriptor.type = it.type();
 
     attributes.insert(
-        std::pair<std::string, OICFileDescriptor>(it->attrname(), descriptor));
+        std::pair<std::string, OICFileDescriptor>(it.attrname(), descriptor));
 
-    OICFile *file = new OICFile(it->attrname(), _stub->getResourceInterfaces(),
-                                attributes, _stub);
-    this->add_file(it->attrname().c_str(), file);
+    OICFile *file =
+        new OICFile(it.attrname(), _stub->resource()->getResourceInterfaces(),
+                    attributes, _stub);
+    this->add_file(it.attrname().c_str(), file);
   }
-
-  _stub->resume();
 }
 }

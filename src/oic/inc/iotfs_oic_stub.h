@@ -9,7 +9,7 @@
 namespace iotfs {
 
 class OICStub {
-  public:
+public:
   OICStub(std::shared_ptr<OC::OCResource> resource);
   ~OICStub();
 
@@ -17,19 +17,17 @@ class OICStub {
            OC::PutCallback callback);
 
   void get(OC::QueryParamsMap query, OC::GetCallback callback);
-  std::vector<std::string> getResourceInterfaces() const {
-    return _resource->getResourceInterfaces();
-  }
 
+  std::shared_ptr<OC::OCResource> resource() { return _resource; };
+
+private:
   void remove();
   void post();
 
   void wait();
   void resume();
 
-  const std::shared_ptr<OC::OCResource> resource() { return _resource; };
-
-  private:
+private:
   std::shared_ptr<OC::OCResource> _resource;
 
   // lock when retrieve information from remote//

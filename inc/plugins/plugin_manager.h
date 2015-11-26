@@ -22,21 +22,21 @@ namespace iotfs {
 
 class PluginManager : public std::vector<IoTInfoProvider *> {
 
-  public:
+public:
   static PluginManager *instance();
   ~PluginManager();
 
-  private:
+private:
   PluginManager();
 
-  private:
+private:
   void init();
 
-  private:
+private:
   // singleton
   static PluginManager *_instance;
 
-  private:
+private:
   // ptree object
   ptree _pt;
 };

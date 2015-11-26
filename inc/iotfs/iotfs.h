@@ -28,10 +28,10 @@ typedef fusekit::daemon<iotfs::IOTFolder, fusekit::no_lock> daemon;
 // The provider will provide iot info items.
 //-
 class IOTINFOPROVIDER_EXPORT IoTInfoProvider {
-  public:
+public:
   virtual ~IoTInfoProvider(){};
 
-  public:
+public:
   virtual void initialize(iotfs::daemon *daemon) = 0;
 };
 

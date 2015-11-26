@@ -11,10 +11,10 @@ US_USE_NAMESPACE
 
 namespace iotfs {
 class US_ABI_LOCAL Activator : public ModuleActivator {
-  private:
+private:
   std::auto_ptr<iotfs::OICInfoProvider> _oic_provider;
 
-  public:
+public:
   /**
    * Implements ModuleActivator::Load(). Registers an
    * instance of a dictionary service using the module context;
