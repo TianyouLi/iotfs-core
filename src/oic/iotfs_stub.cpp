@@ -8,7 +8,6 @@ OICStub::~OICStub() {}
 
 void OICStub::put(OC::OCRepresentation rep, OC::QueryParamsMap query,
                   OC::PutCallback callback) {
-  _isWaiting = true;
   auto wrapped =
       [this, callback](const OC::HeaderOptions &ho,
                        const OC::OCRepresentation &rep, const int ecode) {
@@ -16,12 +15,13 @@ void OICStub::put(OC::OCRepresentation rep, OC::QueryParamsMap query,
         resume();
       };
 
+  std::lock_guard<std::mutex> locker(_m_rw);
+  _isWaiting = true;
   _resource->put(rep, query, wrapped);
   wait();
 }
 
 void OICStub::get(OC::QueryParamsMap query, OC::GetCallback callback) {
-  _isWaiting = true;
   auto wrapped =
       [this, callback](const OC::HeaderOptions &ho,
                        const OC::OCRepresentation &rep, const int ecode) {
@@ -29,6 +29,8 @@ void OICStub::get(OC::QueryParamsMap query, OC::GetCallback callback) {
         resume();
       };
 
+  std::lock_guard<std::mutex> locker(_m_rw);
+  _isWaiting = true;
   _resource->get(query, wrapped);
   wait();
 }

@@ -33,6 +33,7 @@ private:
   // lock when retrieve information from remote//
   bool _isWaiting;
   std::mutex _m;
+  std::mutex _m_rw;
   std::condition_variable _cv;
 };
 }
