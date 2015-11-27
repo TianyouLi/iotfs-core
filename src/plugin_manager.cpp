@@ -73,7 +73,13 @@ void PluginManager::init() {
 
       SharedLibrary libHandle(path, name);
       BOOST_LOG_TRIVIAL(trace) << "Loading library " << libHandle.GetFilePath();
-      libHandle.Load();
+
+      try {
+        libHandle.Load();
+      } catch (...) {
+          BOOST_LOG_TRIVIAL(error) << "Error when loading plugin library "
+                                   << path << name;
+      }
     }
   }
 

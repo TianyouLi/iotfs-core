@@ -85,7 +85,7 @@ void OICInfoProvider::foundResource(std::shared_ptr<OC::OCResource> resource) {
       createFolderByUri(_daemon->root(), uri, resource);
     }
   } catch (std::exception &e) {
-    // error handling
+    BOOST_LOG_TRIVIAL(error) << "Error when handling discovery event callback";
   }
 }
 
