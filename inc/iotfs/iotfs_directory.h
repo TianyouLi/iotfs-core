@@ -12,9 +12,9 @@ namespace iotfs {
   implements. This class could be used for further implementation of
   security features and others.
  */
-class IOTFolder : public default_directory<>::type {
+class IoTFolder : public default_directory<>::type {
 public:
-  virtual ~IOTFolder(){};
+  virtual ~IoTFolder(){};
 
   //!
   /*!
@@ -24,7 +24,7 @@ public:
 
     \param name	the name of child folder will be created
   */
-  virtual IOTFolder &makeChildFolder(const std::string &name);
+  virtual IoTFolder &makeChildFolder(const std::string &name);
 };
 }
 

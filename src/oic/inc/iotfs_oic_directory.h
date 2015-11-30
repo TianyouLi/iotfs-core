@@ -6,9 +6,9 @@
 #include <inc/iotfs_oic_stub.h>
 
 namespace iotfs {
-class OICFolder : public IOTFolder {
+class OICFolder : public IoTFolder {
 public:
-  OICFolder() : IOTFolder(){};
+  OICFolder() : IoTFolder(){};
 
   virtual ~OICFolder(){};
 

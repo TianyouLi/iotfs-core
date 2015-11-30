@@ -30,7 +30,7 @@ public:
 private:
   void foundResource(std::shared_ptr<OC::OCResource> resource);
 
-  void createFolderByUri(IOTFolder &parent, const std::string &uri,
+  void createFolderByUri(IoTFolder &parent, const std::string &uri,
                          std::shared_ptr<OC::OCResource> resource);
 
   void presenceHandler(OCStackResult result, const unsigned int nonce,

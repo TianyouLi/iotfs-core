@@ -29,7 +29,7 @@ typedef enum OICFileOpeartion {
   OICFileOperationWrite = 1 << 1
 } OICFileOpeartion;
 
-class OICFile : public IOTFile {
+class OICFile : public IoTFile {
 public:
   OICFile(const std::string &resourceTypeName,
           const std::vector<std::string> &resourceIntefaces,

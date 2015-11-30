@@ -13,20 +13,20 @@ const char DELIMITER = '\n';
 
 //!
 /*!
-  IOTFile is the base class for all files in IoTFS. Each standard/protocol
+  IoTFile is the base class for all files in IoTFS. Each standard/protocol
   plugin should inherited from this class for its own file class structure.
  */
-struct IOTFile
+struct IoTFile
     : public iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                     default_file_permissions> {
 public:
-  IOTFile()
+  IoTFile()
       : iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                default_file_permissions>(
-            std::bind(&IOTFile::read, this, _1),
-            std::bind(&IOTFile::write, this, _1)) {}
+            std::bind(&IoTFile::read, this, _1),
+            std::bind(&IoTFile::write, this, _1)) {}
 
-  virtual ~IOTFile() {}
+  virtual ~IoTFile() {}
 
   //!
   /*!

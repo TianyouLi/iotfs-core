@@ -2,11 +2,11 @@
 
 namespace iotfs {
 
-IOTFolder &IOTFolder::makeChildFolder(const std::string &name) {
+IoTFolder &IoTFolder::makeChildFolder(const std::string &name) {
   fusekit::entry *e = this->find(name.c_str());
   if (e == nullptr) {
-    return this->add_directory(name.c_str(), new IOTFolder());
+    return this->add_directory(name.c_str(), new IoTFolder());
   }
-  return *dynamic_cast<IOTFolder *>(e);
+  return *dynamic_cast<IoTFolder *>(e);
 }
 }

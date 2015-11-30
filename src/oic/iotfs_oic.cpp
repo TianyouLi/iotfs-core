@@ -16,7 +16,7 @@ using namespace std::placeholders;
 
 namespace iotfs {
 
-static OICFolder &createOICFolder(IOTFolder &parent, const std::string &child,
+static OICFolder &createOICFolder(IoTFolder &parent, const std::string &child,
                                   std::shared_ptr<OC::OCResource> resource) {
   fusekit::entry *e = parent.find(child.c_str());
   if (e == nullptr) {
@@ -60,7 +60,7 @@ void OICInfoProvider::initialize(iotfs::daemon *daemon) {
 }
 
 void OICInfoProvider::createFolderByUri(
-    IOTFolder &parent, const std::string &uri,
+    IoTFolder &parent, const std::string &uri,
     std::shared_ptr<OC::OCResource> resource) {
   std::size_t pos = uri.find("/");
   if (std::string::npos == pos) { // not found, create the directory
@@ -68,7 +68,7 @@ void OICInfoProvider::createFolderByUri(
     folder.createResourceTypeFolder(resource);
   } else {
     std::string stepUri = uri.substr(0, pos);
-    IOTFolder &step = parent.makeChildFolder(stepUri);
+    IoTFolder &step = parent.makeChildFolder(stepUri);
     createFolderByUri(step, uri.substr(pos + 1), resource);
   }
 }

@@ -22,7 +22,7 @@ namespace iotfs {
 /*!
   define a daemon type that use iotfs folder template parameter
  */
-typedef fusekit::daemon<iotfs::IOTFolder, fusekit::no_lock> daemon;
+typedef fusekit::daemon<iotfs::IoTFolder, fusekit::no_lock> daemon;
 
 //!
 /*!
