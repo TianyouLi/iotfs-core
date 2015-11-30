@@ -19,10 +19,9 @@ template <> bool lexical_cast<bool, std::string>(const std::string &arg) {
   if (boost::iequals(arg, std::string("false"))) {
     return false;
   }
-  
-  throw bad_lexical_cast();  
-}
 
+  throw bad_lexical_cast();
+}
 }
 
 #endif

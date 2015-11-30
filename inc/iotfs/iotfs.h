@@ -18,20 +18,30 @@ US_USE_NAMESPACE
 #endif
 
 namespace iotfs {
-
-//-
-// define a daemon type that use CDtor as initialize/cleanup
-//-
+//!
+/*!
+  define a daemon type that use iotfs folder template parameter
+ */
 typedef fusekit::daemon<iotfs::IOTFolder, fusekit::no_lock> daemon;
 
-//-
-// The provider will provide iot info items.
-//-
+//!
+/*!
+  The provider is the interface class for any IoTFS plugins to implement,
+  please refer OICInfoProvider for more details.
+ */
 class IOTINFOPROVIDER_EXPORT IoTInfoProvider {
 public:
   virtual ~IoTInfoProvider(){};
 
 public:
+  //!
+  /*!
+    The function initialize will be invoked after library is loaded and
+    plugin manager retrieved the references of IoTInfoProvider's instance.
+
+    \param daemon	will be used inside the provider for managing directory
+    and file mappings for devices.
+  */
   virtual void initialize(iotfs::daemon *daemon) = 0;
 };
 

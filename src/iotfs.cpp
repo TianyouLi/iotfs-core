@@ -19,9 +19,7 @@ void initialize() {
       provider->initialize(&g_daemon);
     }
   } catch (...) {
-      BOOST_LOG_TRIVIAL(error) << "Error when initialize plugins";
+    BOOST_LOG_TRIVIAL(error) << "Error when initialize plugins";
   }
 }
-
 }
-

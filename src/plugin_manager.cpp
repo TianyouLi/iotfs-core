@@ -77,8 +77,8 @@ void PluginManager::init() {
       try {
         libHandle.Load();
       } catch (...) {
-          BOOST_LOG_TRIVIAL(error) << "Error when loading plugin library "
-                                   << path << name;
+        BOOST_LOG_TRIVIAL(error) << "Error when loading plugin library " << path
+                                 << name;
       }
     }
   }

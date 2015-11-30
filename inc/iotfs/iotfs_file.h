@@ -11,9 +11,11 @@ namespace iotfs {
 const int MAX_SIZE = 4096;
 const char DELIMITER = '\n';
 
-// OICResource is an abstract model, it may
-// contains multiple resourceType.
-// Hence we represent each resourceType by one OICFile
+//!
+/*!
+  IOTFile is the base class for all files in IoTFS. Each standard/protocol
+  plugin should inherited from this class for its own file class structure.
+ */
 struct IOTFile
     : public iostream_function_file<MAX_SIZE, DELIMITER, default_time,
                                     default_file_permissions> {
@@ -26,8 +28,24 @@ public:
 
   virtual ~IOTFile() {}
 
-  // make it as an pure abstract class
+  //!
+  /*!
+    The read call will be invoked once a file read operation performed.
+
+    \param os value should be serialized into os thus can be passed to
+    application level.
+    \return <ReturnValue> 0 for success, non-zero for error
+  */
   virtual int read(std::ostream &os) = 0;
+
+  //!
+  /*!
+    The write call will be invoked once a file being write with some
+    content.
+
+    \param is the write value could be retrieved from the is.
+    \return <ReturnValue> 0 for success, non-zero for error
+  */
   virtual int write(std::istream &is) = 0;
 };
 }
