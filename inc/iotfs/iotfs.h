@@ -18,11 +18,18 @@ US_USE_NAMESPACE
 #endif
 
 namespace iotfs {
+
+class IoTFSInitializer {
+public:
+  IoTFSInitializer();
+  ~IoTFSInitializer();
+};
+  
 //!
 /*!
   define a daemon type that use iotfs folder template parameter
  */
-typedef fusekit::daemon<iotfs::IoTFolder, fusekit::no_lock> daemon;
+typedef fusekit::daemon<IoTFSInitializer, iotfs::IoTFolder, fusekit::no_lock> daemon;
 
 //!
 /*!
@@ -46,8 +53,6 @@ public:
 };
 
 static iotfs::daemon &g_daemon = iotfs::daemon::instance();
-
-void initialize();
 }
 
 US_DECLARE_SERVICE_INTERFACE(iotfs::IoTInfoProvider, "IoTInfoProvider/1.0");

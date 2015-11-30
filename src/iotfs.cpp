@@ -12,7 +12,7 @@
 
 namespace iotfs {
 
-void initialize() {
+IoTFSInitializer::IoTFSInitializer() {
   try {
     PluginManager *pm = PluginManager::instance();
     for (IoTInfoProvider *provider : *pm) {
@@ -22,4 +22,9 @@ void initialize() {
     BOOST_LOG_TRIVIAL(error) << "Error when initialize plugins";
   }
 }
+
+IoTFSInitializer::~IoTFSInitializer() {
+
+}
+
 }

@@ -1,5 +1,6 @@
 #include <string>
 #include <set>
+#include <cstdlib>
 
 #include <plugins/plugin_manager.h>
 
@@ -46,10 +47,9 @@ PluginManager *PluginManager::instance() {
 
 void PluginManager::init() {
   static const std::string plugin_config_file("./plugins.xml");
-  fs::path current_path(fs::current_path());
-
-  std::string full_path =
-      current_path.generic_string() + "/" + plugin_config_file;
+  std::string current_path(std::getenv("IOTFS_BIN_DIR"));
+  
+  std::string full_path = current_path + "/" + plugin_config_file;
 
   BOOST_LOG_TRIVIAL(trace) << "Loading plugin configuration file from "
                            << full_path;
@@ -66,7 +66,7 @@ void PluginManager::init() {
   for (pt::ptree::value_type &node : _pt.get_child("plugins")) {
     if (node.first == "plugin") {
       std::string name(node.second.get<std::string>("name"));
-      std::string path(current_path.generic_string() + "/" +
+      std::string path(current_path + "/" +
                        node.second.get<std::string>("path"));
       BOOST_LOG_TRIVIAL(trace) << "Module Name: " << name
                                << " Module Path: " << path;
