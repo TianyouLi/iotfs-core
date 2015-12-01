@@ -34,21 +34,36 @@ The IoTFS was built and tested under Ubuntu 14.04 amd64 system.
 
 ### Run
 
-1. Change current working directory to **${IOTFS}/bin**. Please note the executable named iotfs under ${IOTFS}/bin, will try to search for plugins.xml  which contains the plugin configuration under **current working directory***. So if you want to execute iotfs correctly, please make sure plugins.xml file exists in the working directory and it contains correct plugin configuration.
-```
-cd ${IOTFS}/bin
-mkdir temp
-./iotfs ./temp
-```
-The last command will mount iotfs onto mount point ./temp which just created by command 'mkdir temp'. You can use './iotfs -d ./temp' to launch iotfs under debug mode, so that you can see more verbose log information.
+1. The quick way: execute mount.sh under ${IOTFS}/bin.
 
-2. Verify iotfs mount correctly. First, you can use 'mount' command to see the current mounted filesystems. You should find the following that indicates IoTFS successfully mounted on ./temp.
+2. The manual way
+   2.1 Export environment variable named IOTFS_BIN_DIR to point to **${IOTFS}/bin**. The executable named iotfs under ${IOTFS}/bin will try to locate the plugins.xml under the directory specified by ${IOTFS_BIN_DIR}. If the plugins.xml hasn't been found, the IoTFS will not be correctly mounted.
+   2.2 Execute ${IOTFS}/bin/iotfs ${the directory for the IoTFS mount point}, example as below:
+	 		 ```
+			 cd ${IOTFS}/bin
+			 mkdir temp
+			 ./iotfs ./temp
+			 ```
+			 The last command will mount iotfs onto mount point ./temp which just created by command 'mkdir temp'. You can use './iotfs -d ./temp' to launch iotfs under debug mode, so that you can see more verbose log information.
+
+3. Verify iotfs mount correctly. First, you can use 'mount' command to see the current mounted filesystems. You should find the following that indicates IoTFS successfully mounted on ./temp.
 ```
 iotfs on /home/lity/projects/iotfs/bin/temp type fuse.iotfs (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000,default_permissions)
 ```
-Then you can enter into 'temp' directory and there should no errors or other abnormal things happen.
+Then you can enter into 'temp' directory and there should no errors or other abnormal things happen. But right now the ${IOTFS}/bin/temp folder should not have anything in it since there is no OIC devices up running. Please follow the step 3 to build and run sample OIC device to make something appear in IoTFS
 
-3. Build  
+3. Build sample OIC device
+	 3.1 Change directory to ${IOTFS}/demo/oicfanserver
+	 3.2 Execute ./build.sh
+	 3.3 Change directory to ${IOTFS}/demo/bin, you will see two executables: client and fan
+	 3.4 Execute 'fan' by ./fan, then you can go back into IoTFS in directory ${IOTFS}/bin/temp and should see a directory which represent the device you just launched.
 
 
-## For Developers
+
+## Contributors
+   | Name       | Email                     | Github id    |
+	 |------------|---------------------------|--------------|
+	 | Tianyou Li | <tianyou.li@gmail.com>    | TianyouLi    |
+	 | Ziqi Wu    | <applewuziqi@gmail.com>   | SatanWoo     |
+
+
