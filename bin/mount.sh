@@ -6,5 +6,5 @@ export IOTFS_BIN_DIR=${BLD_DIR}
 
 cd ${BLD_DIR}
 mkdir -p temp
-./iotfs -d ./temp
+./iotfs ./temp
 cd ${CUR_DIR}
