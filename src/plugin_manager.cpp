@@ -49,6 +49,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <usModuleRegistry.h>
 #include <usSharedLibrary.h>
 
+// local headers
+#include <iotfs/utils.h>
+
 using boost::property_tree::ptree;
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
@@ -74,7 +77,7 @@ PluginManager *PluginManager::instance() {
 
 void PluginManager::init() {
   static const std::string plugin_config_file("./plugins.xml");
-  std::string current_path(std::getenv("IOTFS_BIN_DIR"));
+  std::string current_path = directory_conf();
 
   std::string full_path = current_path + "/" + plugin_config_file;
 

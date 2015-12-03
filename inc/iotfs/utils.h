@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * specialized version for bool lexical_cast<bool>("true")
  */
 namespace boost {
+  
 template <> bool lexical_cast<bool, std::string>(const std::string &arg) {
 
   if (boost::iequals(arg, std::string("true"))) {
@@ -49,6 +50,23 @@ template <> bool lexical_cast<bool, std::string>(const std::string &arg) {
 
   throw bad_lexical_cast();
 }
+  
+}
+
+
+
+namespace iotfs {
+  
+const std::string directory_conf() {
+  char* path = std::getenv("IOTFS_BIN_DIR");
+
+  if (path == nullptr) {
+    return std::string("");
+  }
+
+  return std::string(path);
+}
+  
 }
 
 #endif
