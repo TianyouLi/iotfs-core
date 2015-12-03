@@ -49,9 +49,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <usModuleRegistry.h>
 #include <usSharedLibrary.h>
 
-// local headers
-#include <iotfs/utils.h>
-
 using boost::property_tree::ptree;
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
