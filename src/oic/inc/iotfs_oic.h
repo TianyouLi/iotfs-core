@@ -44,6 +44,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <OCPlatform.h>
 #include <OCApi.h>
 
+// boost property tree xml seder
+#include <boost/property_tree/xml_parser.hpp>
+
+namespace pt = boost::property_tree;
+
 namespace iotfs {
 typedef std::map<OC::OCResourceIdentifier, std::shared_ptr<OC::OCResource>>
     DiscoveredResourceMap;
@@ -55,6 +60,10 @@ public:
   virtual void initialize(iotfs::daemon *daemon);
 
 private:
+  void loadPlatformConfiguration();
+  
+  void overwriteDefaultConfigure(pt::ptree& properties);
+
   void foundResource(std::shared_ptr<OC::OCResource> resource);
 
   void createFolderByUri(IoTFolder &parent, const std::string &uri,

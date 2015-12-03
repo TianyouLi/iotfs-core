@@ -53,20 +53,4 @@ template <> bool lexical_cast<bool, std::string>(const std::string &arg) {
   
 }
 
-
-
-namespace iotfs {
-  
-const std::string directory_conf() {
-  char* path = std::getenv("IOTFS_BIN_DIR");
-
-  if (path == nullptr) {
-    return std::string("");
-  }
-
-  return std::string(path);
-}
-  
-}
-
 #endif

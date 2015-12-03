@@ -28,18 +28,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // std lib
 #include <functional>
 
+// ourselves
+#include <inc/iotfs_oic.h>
+#include <inc/iotfs_oic_directory.h>
+
 // boost lib
 #include <boost/algorithm/string.hpp>
 
 // boost trivial logger
 #include <boost/log/trivial.hpp>
 
-// ourselves
-#include <inc/iotfs_oic.h>
-#include <inc/iotfs_oic_directory.h>
+// local headers
+#include <iotfs/iotfs.h>
+
 
 using namespace OC;
-using namespace std::placeholders;
+namespace ph = std::placeholders;
+
 
 namespace iotfs {
 
@@ -52,20 +57,130 @@ static OICFolder &createOICFolder(IoTFolder &parent, const std::string &child,
   return *dynamic_cast<OICFolder *>(e);
 }
 
-OICInfoProvider::OICInfoProvider() : _initialized(false) {
-  _cfg = {OC::ServiceType::InProc, OC::ModeType::Client, "0.0.0.0", 0,
-          OC::QualityOfService::LowQos};
-
+OICInfoProvider::OICInfoProvider() : _initialized(false) { 
   _requestURI << OC_MULTICAST_DISCOVERY_URI;
 }
 
 OICInfoProvider::~OICInfoProvider() {}
 
+
+static std::map<std::string, OCConnectivityType> map_connectivity =
+  {
+    {"default", CT_DEFAULT},
+    {"adapter_ip", CT_ADAPTER_IP},
+    {"adapter_gatt_btle", CT_ADAPTER_GATT_BTLE},
+    {"adapter_rfcomm_btedr", CT_ADAPTER_RFCOMM_BTEDR},
+    {"flag_secure", CT_FLAG_SECURE},
+    {"ip_use_v6", CT_IP_USE_V6},
+    {"ip_use_v4", CT_IP_USE_V4},
+    {"scope_interface", CT_SCOPE_INTERFACE},
+    {"scope_link", CT_SCOPE_LINK},
+    {"scope_realm", CT_SCOPE_REALM},
+    {"scope_admin", CT_SCOPE_ADMIN},
+    {"scope_site", CT_SCOPE_SITE},
+    {"scope_org", CT_SCOPE_ORG},
+    {"scope_global", CT_SCOPE_GLOBAL}
+  };
+
+static std::map<std::string, QualityOfService> map_qos =
+  {
+    {"low", QualityOfService::LowQos},
+    {"mid", QualityOfService::MidQos},
+    {"HighQos", QualityOfService::HighQos},
+    {"NaQos", QualityOfService::NaQos}
+  };
+
+  
+void OICInfoProvider::overwriteDefaultConfigure(pt::ptree& properties) {
+  try {
+    std::string server_connectivity = properties.get<std::string>
+      ("PlatformConfig.ServerConnectivity");
+    auto result = map_connectivity.find(server_connectivity);
+    if (result != map_connectivity.end()) {
+      _cfg.serverConnectivity = result->second;
+    }
+  } catch (...) {
+    BOOST_LOG_TRIVIAL(trace) << "Can not read server connectivity config.";
+  }
+
+  
+  try {
+    std::string client_connectivity = properties.get<std::string>
+      ("PlatformConfig.ClientConnectivity");
+    auto result = map_connectivity.find(client_connectivity);
+    if (result != map_connectivity.end()) {
+      _cfg.clientConnectivity = result->second;
+    }
+  } catch (...) {
+    BOOST_LOG_TRIVIAL(trace) << "Can not read client connectivity config.";
+  }
+
+  
+  try {
+    std::string ip = properties.get<std::string>("PlatformConfig.IP");
+    _cfg.ipAddress = ip;
+  } catch (...) {
+    BOOST_LOG_TRIVIAL(trace) << "Can not read ip address config.";
+  }
+
+
+  try {
+    uint16_t port = properties.get<uint16_t>("PlatformConfig.Port");
+    _cfg.port = port;
+  } catch (...) {
+    BOOST_LOG_TRIVIAL(trace) << "Can not read port config.";
+  }
+
+
+  try {
+    std::string qos = properties.get<std::string>("PlatformConfig.QoS");
+    auto result = map_qos.find(qos);
+    if (result != map_qos.end()) {
+      _cfg.QoS = result->second;
+    }
+  } catch (...) {
+    BOOST_LOG_TRIVIAL(trace) << "Can not read QoS config.";
+  }
+}
+  
+void OICInfoProvider::loadPlatformConfiguration() {
+  static const std::string oc_config_file("./OCPlatformConfig.xml");
+  
+  // get configuration directory
+  std::string current_path = directory_conf();
+  
+  // get full configuration file pathname
+  std::string full_path = current_path + "/" + oc_config_file;
+
+  BOOST_LOG_TRIVIAL(trace) << "Loading OIC configuration file from "
+                           << full_path;
+
+  // provide default initialization value
+  _cfg = {OC::ServiceType::InProc, OC::ModeType::Client, "0.0.0.0", 0,
+          OC::QualityOfService::LowQos};
+
+  // load configurations
+  pt::ptree properties;
+  try {
+    pt::read_xml(full_path, properties);
+  } catch (...) {
+    BOOST_LOG_TRIVIAL(error) << "Can not load OIC configuration file from "
+                             << full_path;
+  }
+
+  // overwrite default configuration values
+  overwriteDefaultConfigure(properties);
+}
+
+  
 void OICInfoProvider::initialize(iotfs::daemon *daemon) {
   if (_initialized)
     return;
 
   _daemon = daemon;
+
+  loadPlatformConfiguration();
+  
   OCPlatform::Configure(_cfg);
 
   OCPlatform::OCPresenceHandle presenceHandle = nullptr;
@@ -74,12 +189,12 @@ void OICInfoProvider::initialize(iotfs::daemon *daemon) {
   multicastPresenceURI << "coap://" << OC_MULTICAST_PREFIX;
 
   auto presence_callback =
-      std::bind(&OICInfoProvider::presenceHandler, this, _1, _2, _3);
+    std::bind(&OICInfoProvider::presenceHandler, this, ph::_1, ph::_2, ph::_3);
   OCPlatform::subscribePresence(presenceHandle, multicastPresenceURI.str(),
                                 CT_ADAPTER_IP, presence_callback);
 
   auto discovery_callback =
-      std::bind(&OICInfoProvider::foundResource, this, _1);
+    std::bind(&OICInfoProvider::foundResource, this, ph::_1);
   OCPlatform::findResource("", _requestURI.str(), CT_ADAPTER_IP,
                            discovery_callback);
 
@@ -139,7 +254,7 @@ void OICInfoProvider::presenceHandler(OCStackResult result,
   }
 
   if (result == OC_STACK_OK) {
-    auto callback = std::bind(&OICInfoProvider::foundResource, this, _1);
+    auto callback = std::bind(&OICInfoProvider::foundResource, this, ph::_1);
     OCPlatform::findResource("", _requestURI.str(), CT_ADAPTER_IP, callback);
   }
 }

@@ -80,6 +80,16 @@ public:
   virtual void initialize(iotfs::daemon *daemon) = 0;
 };
 
+inline const std::string directory_conf() {
+  char* path = std::getenv("IOTFS_BIN_DIR");
+
+  if (path == nullptr) {
+    return std::string("");
+  }
+
+  return std::string(path);
+}
+  
 static iotfs::daemon &g_daemon = iotfs::daemon::instance();
 }
 
