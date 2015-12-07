@@ -80,6 +80,13 @@ public:
   virtual void initialize(iotfs::daemon *daemon) = 0;
 };
 
+//! 
+/*!
+  Get configuration directory
+
+  \param  
+  \return <ReturnValue> the string of full path of configuration directory
+*/
 inline const std::string directory_conf() {
   char* path = std::getenv("IOTFS_BIN_DIR");
 
@@ -89,9 +96,17 @@ inline const std::string directory_conf() {
 
   return std::string(path);
 }
+
+
   
+//! 
+/*!
+  Global iotfs::daemon intance, which will be passed to every plugin during
+  initialization.
+ */
 static iotfs::daemon &g_daemon = iotfs::daemon::instance();
 }
+
 
 US_DECLARE_SERVICE_INTERFACE(iotfs::IoTInfoProvider, "IoTInfoProvider/1.0");
 

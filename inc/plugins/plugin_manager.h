@@ -47,9 +47,22 @@ US_USE_NAMESPACE
 
 namespace iotfs {
 
+//! 
+/*!
+  PluginManager inherits std::vector to manage all IoTInfoProvider
+  Object references. 
+ */
 class PluginManager : public std::vector<IoTInfoProvider *> {
 
 public:
+  
+  //! 
+  /*!
+    Singleton of PluginManager instance
+
+    \param  
+    \return <ReturnValue> the pointer to PluginManager instance
+  */
   static PluginManager *instance();
   ~PluginManager();
 
