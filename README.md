@@ -53,7 +53,7 @@ Step 3. Execute ${IOTFS}/build/build.sh. This script will use cmake to build the
    ```
    iotfs on /home/lity/projects/iotfs/bin/temp type fuse.iotfs (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000,default_permissions)
    ```
-   Then you can enter into 'temp' directory and there should no errors or other abnormal things happen. But right now the    ${IOTFS}/bin/temp folder should not have anything in it since there is no OIC devices up running. Please follow [Build sample OIC device] to build and run sample OIC device to make something appear in IoTFS.
+   Then you can enter into 'temp' directory and there should no errors or other abnormal things happen. But right now the    ${IOTFS}/bin/temp folder should not have anything in it since there is no OIC devices up running. Please follow [Build sample OIC device](#build-sample-oic-device) to build and run sample OIC device to make something appear in IoTFS.
 
 #### Build sample OIC device
 1. Change directory to ${IOTFS}/demo/oicfanserver
