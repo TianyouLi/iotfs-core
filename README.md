@@ -7,9 +7,9 @@ The current implementation includes a framework built on top of [FUSE](http://fu
 
 The whole project include majorly three part:
 
-* iotfs-core      : This repository
-* iotfs-adpaters  : The adapter code that convert one standard to another, for example ONVIF to OIC.
-* iotfs-qa        : The QA framework includes unit test and conformance test currently implemented. 
+* [iotfs-core](https://github.com/01org/iotfs-core)      : The IoTFS core framework and oic plugin implementation repository
+* [iotfs-adpaters](https://github.com/01org/iotfs-adapters)  : The adapter code that convert one standard to another, for example ONVIF to OIC.
+* [iotfs-qa](https://github.com/01org/iotfs-qa)        : The QA framework includes unit test and conformance test currently implemented. 
 
 ## How to Start
 
@@ -59,11 +59,11 @@ Then you can enter into 'temp' directory and there should no errors or other abn
    3.4 Execute 'fan' by ./fan, then you can go back into IoTFS in directory ${IOTFS}/bin/temp and should see a directory which represent the device you just launched.
 
 
-
 ## Contributors
-   | Name       | Email                     | Github id    |
-   |------------|---------------------------|--------------|
-   | Tianyou Li | <tianyou.li@gmail.com>    | TianyouLi    |
-   | Ziqi Wu    | <applewuziqi@gmail.com>   | SatanWoo     |
+
+| Name       | Email                     | Github id    |
+|------------|---------------------------|--------------|
+| Tianyou Li | <tianyou.li@gmail.com>    | TianyouLi    |
+| Ziqi Wu    | <applewuziqi@gmail.com>   | SatanWoo     |
 
 
