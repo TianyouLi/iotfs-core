@@ -7,9 +7,9 @@ The current implementation includes a framework built on top of [FUSE](http://fu
 
 The whole project include majorly three part:
 
-* [iotfs-core](https://github.com/01org/iotfs-core)      : The IoTFS core framework and oic plugin implementation repository
-* [iotfs-adpaters](https://github.com/01org/iotfs-adapters)  : The adapter code that convert one standard to another, for example ONVIF to OIC.
-* [iotfs-qa](https://github.com/01org/iotfs-qa)        : The QA framework includes unit test and conformance test currently implemented. 
+* [iotfs-core](https://github.com/TianyouLi/iotfs-core)      : The IoTFS core framework and oic plugin implementation repository
+* [iotfs-adpaters](https://github.com/TianyouLi/iotfs-adapters)  : The adapter code that convert one standard to another, for example ONVIF to OIC.
+* [iotfs-qa](https://github.com/TianyouLi/iotfs-qa)        : The QA framework includes unit test and conformance test currently implemented. 
 
 ## How to Start
 
